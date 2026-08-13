@@ -1,0 +1,249 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user profile, typically an admin or restaurant owner",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["email", "name"]
+    },
+    "Restaurant": {
+      "title": "Restaurant",
+      "description": "Restaurant information",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "bannerUrl": { "type": "string" },
+        "primaryColor": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["ownerId", "name"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Menu items belonging to a restaurant",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "name", "price"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product categories in a restaurant",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "name"]
+    },
+    "Plan": {
+      "title": "Plan",
+      "description": "Subscription plans available (e.g. Free, Premium)",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "productLimit": { "type": "number" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "price"]
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "A user/restaurant's subscription to a plan",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "planId": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "suspended", "cancelled"] },
+        "startDate": { "type": "number" },
+        "endDate": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "planId", "status"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order details",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerAddress": { "type": "string" },
+        "status": { "type": "string" },
+        "total": { "type": "number" },
+        "itemsCount": { "type": "number" },
+        "timestamp": { "type": "number" },
+        "items": { "type": "array" }
+      },
+      "required": ["restaurantId", "customerName", "customerAddress", "status", "total"]
+    },
+    "MenuView": {
+      "title": "MenuView",
+      "description": "Single view event of restaurant menu",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["restaurantId", "timestamp"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Menu announcements/notices with optional expiration",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["info", "warning", "success", "danger"] },
+        "hasExpiration": { "type": "boolean" },
+        "expiresAt": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "message", "type", "hasExpiration", "isActive"]
+    },
+    "Waiter": {
+      "title": "Waiter",
+      "description": "An order taker or waiter registered for the restaurant",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "name": { "type": "string" },
+        "code": { "type": "string" },
+        "phone": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "name"]
+    },
+    "Promotion": {
+      "title": "Promotion",
+      "description": "Rules for buy-x-get-y, item discount, or combo promotions",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["buy_x_get_y", "discount", "combo"] },
+        "productId": { "type": "string" },
+        "giftProductId": { "type": "string" },
+        "buyQty": { "type": "number" },
+        "giftQty": { "type": "number" },
+        "discountType": { "type": "string", "enum": ["percentage", "fixed_value"] },
+        "discountValue": { "type": "number" },
+        "productIds": { "type": "array" },
+        "comboPrice": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "name", "type", "isActive"]
+    },
+    "Table": {
+      "title": "Table",
+      "description": "Restaurant tables status tracker",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "name": { "type": "string" },
+        "customerName": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["restaurantId", "name", "status"]
+    },
+    "Frame": {
+      "title": "Frame",
+      "description": "A decorative commemorative frame (moldura) managed by Master Admin",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "commemorativeType": { "type": "string" },
+        "specificDates": { "type": "array" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["name", "imageUrl"]
+    }
+  },
+  "firestore": {
+    "users/{uid}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles"
+    },
+    "restaurants/{restaurantId}": {
+      "schema": { "$ref": "#/entities/Restaurant" },
+      "description": "Stores restaurants"
+    },
+    "products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Stores all products"
+    },
+    "categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Stores categories"
+    },
+    "configs/{configId}": {
+      "schema": { "$ref": "#/entities/Plan" },
+      "description": "Stores site configs like plan definition properties"
+    },
+    "plans/{planId}": {
+      "schema": { "$ref": "#/entities/Plan" },
+      "description": "Stores available plans"
+    },
+    "subscriptions/{subscriptionId}": {
+      "schema": { "$ref": "#/entities/Subscription" },
+      "description": "Stores subscriptions"
+    },
+    "orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Stores customer orders"
+    },
+    "menu_views/{viewId}": {
+      "schema": { "$ref": "#/entities/MenuView" },
+      "description": "Stores menu view metrics"
+    },
+    "announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Stores menu announcements/notices"
+    },
+    "waiters/{waiterId}": {
+      "schema": { "$ref": "#/entities/Waiter" },
+      "description": "Stores restaurant order takers/waiters"
+    },
+    "promotions/{promotionId}": {
+      "schema": { "$ref": "#/entities/Promotion" },
+      "description": "Stores marketing promotions"
+    },
+    "tables/{tableId}": {
+      "schema": { "$ref": "#/entities/Table" },
+      "description": "Stores restaurant tables structure"
+    },
+    "frames/{frameId}": {
+      "schema": { "$ref": "#/entities/Frame" },
+      "description": "Stores commemorative decorative layout frames"
+    }
+  }
+}
